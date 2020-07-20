@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 #include "tins/network_interface.h"
-#include "http/Sniffer.hpp"
+#include "sniffer/http/Sniffer.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
             std::cout << "Starting capture on interface " << interface_name << std::endl;
         }
 
-        auto http_sniffer = ubershutz::sniffer::http::Sniffer(interface_name);
+        auto http_sniffer = ubersniff::sniffer::http::Sniffer(interface_name);
         http_sniffer.start_sniffing();
 
         std::cout << "Press enter to exit" << std::endl;

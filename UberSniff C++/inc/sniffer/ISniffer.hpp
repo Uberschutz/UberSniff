@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ubershutz::sniffer {
+namespace ubersniff::sniffer {
 	class ISniffer {
 	public:
 		virtual ~ISniffer() = default;

@@ -4,10 +4,10 @@
 #include <map>
 #include <tins/tcp_ip/stream_follower.h>
 #include <tins/sniffer.h>
-#include "ISniffer.hpp"
-#include "http/PacketReassembler.hpp"
+#include "sniffer/ISniffer.hpp"
+#include "sniffer/http/PacketReassembler.hpp"
 
-namespace ubershutz::sniffer::http {
+namespace ubersniff::sniffer::http {
 	class Sniffer : public ISniffer {
 		static constexpr size_t TIMEOUT = 100;
 

@@ -1,7 +1,7 @@
 #include <iostream>
-#include "http/PacketReassembler.hpp"
+#include "sniffer/http/PacketReassembler.hpp"
 
-namespace ubershutz::sniffer::http {
+namespace ubersniff::sniffer::http {
 	PacketReassembler::PacketReassembler(Tins::TCPIP::Stream& stream)
 	{
 		stream.client_data_callback(std::bind(&PacketReassembler::_on_client_data, this, std::placeholders::_1));

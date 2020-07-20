@@ -24,22 +24,22 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\http\PacketReassembler.cpp">
+    <ClCompile Include="src\sniffer\http\PacketReassembler.cpp">
       <Filter>Source Files\http</Filter>
     </ClCompile>
-    <ClCompile Include="src\http\Sniffer.cpp">
+    <ClCompile Include="src\sniffer\http\Sniffer.cpp">
       <Filter>Source Files\http</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\ISniffer.hpp">
+    <ClInclude Include="inc\sniffer\http\PacketReassembler.hpp">
+      <Filter>Header Files\http</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\sniffer\http\Sniffer.hpp">
+      <Filter>Header Files\http</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\sniffer\ISniffer.hpp">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\http\PacketReassembler.hpp">
-      <Filter>Header Files\http</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\http\Sniffer.hpp">
-      <Filter>Header Files\http</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

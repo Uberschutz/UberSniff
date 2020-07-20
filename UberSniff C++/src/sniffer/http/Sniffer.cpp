@@ -1,8 +1,8 @@
 #include <iostream>
 #include <pcap.h>
-#include "http/Sniffer.hpp"
+#include "sniffer/http/Sniffer.hpp"
 
-namespace ubershutz::sniffer::http {
+namespace ubersniff::sniffer::http {
 	Sniffer::Sniffer(const std::string& interface_name) :
 		_sniffer_config(),
 		_sniffer(interface_name,
@@ -47,11 +47,12 @@ namespace ubershutz::sniffer::http {
 		_is_sniffing = true;
 		// run the sniffer in other thread
 		_sniffer_thread = std::thread([&]() {
+#ifdef _WIN32 // get pcap event handler of the sniffer for windows
+			auto event_h = pcap_getevent(_sniffer.get_pcap_handle());
+#endif // _WIN32
 			while (_is_sniffing) {
 #ifdef _WIN32 // Set timeout for the sniffer for windows
-				auto event_h = pcap_getevent(_sniffer.get_pcap_handle());
-				auto result = WaitForSingleObject(event_h, (DWORD)TIMEOUT);
-				if (result == WAIT_OBJECT_0) {
+				if (WaitForSingleObject(event_h, (DWORD)TIMEOUT) == WAIT_OBJECT_0) {
 #endif // _WIN32
 					Tins::Packet packet(_sniffer.next_packet());
 					_stream_follower.process_packet(packet);

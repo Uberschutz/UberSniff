@@ -154,14 +154,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\http\PacketReassembler.cpp" />
+    <ClCompile Include="src\sniffer\http\PacketReassembler.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\http\Sniffer.cpp" />
+    <ClCompile Include="src\sniffer\http\Sniffer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\http\PacketReassembler.hpp" />
-    <ClInclude Include="inc\ISniffer.hpp" />
-    <ClInclude Include="inc\http\Sniffer.hpp" />
+    <ClInclude Include="inc\sniffer\http\PacketReassembler.hpp" />
+    <ClInclude Include="inc\sniffer\ISniffer.hpp" />
+    <ClInclude Include="inc\sniffer\http\Sniffer.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

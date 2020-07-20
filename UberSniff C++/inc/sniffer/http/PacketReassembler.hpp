@@ -4,7 +4,7 @@
 #include <regex>
 #include <tins/tcp_ip/stream.h>
 
-namespace ubershutz::sniffer::http {
+namespace ubersniff::sniffer::http {
 	class PacketReassembler {
 		struct RequestPacket {
 			std::string request;
