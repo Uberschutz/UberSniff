@@ -3,35 +3,11 @@
 #include <queue>
 #include <regex>
 #include <tins/tcp_ip/stream.h>
+#include "sniffer/http/ResponsePacket.hpp"
+#include "sniffer/http/RequestPacket.hpp"
 
 namespace ubersniff::sniffer::http {
 	class PacketReassembler {
-		struct RequestPacket {
-			std::string request;
-			std::unordered_map<std::string, std::string> headers;
-
-			std::string method;
-			std::string url;
-		};
-
-		enum class ContentType {
-			UNDEFINED,
-			IMAGE,
-			TEXT
-		};
-
-		struct ResponsePacket {
-			std::string response;
-			std::unordered_map<std::string, std::string> headers;
-
-			std::string status_code;
-			std::string status_message;
-
-			std::string content;
-			size_t content_length;
-			ContentType content_type;
-		};
-
 		std::vector<uint8_t> _request_data_buffer;
 		std::vector<uint8_t> _response_data_buffer;
 
