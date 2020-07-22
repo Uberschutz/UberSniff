@@ -3,7 +3,8 @@
 #include "sniffer/http/Sniffer.hpp"
 
 namespace ubersniff::sniffer::http {
-	Sniffer::Sniffer(const std::string& interface_name) :
+	Sniffer::Sniffer(const std::string& interface_name, collector::DataCollector &data_collector) :
+		_data_collector(data_collector),
 		_sniffer_config(),
 		_sniffer(interface_name,
 			(_sniffer_config.set_filter("tcp port 80"),
@@ -26,7 +27,7 @@ namespace ubersniff::sniffer::http {
 	void Sniffer::_on_new_connection(Tins::TCPIP::Stream& stream)
 	{
 		auto stream_id = Tins::TCPIP::StreamIdentifier::make_identifier(stream);
-		_packet_reassemblers[stream_id] = std::unique_ptr<PacketReassembler>(new PacketReassembler(stream));
+		_packet_reassemblers[stream_id] = std::unique_ptr<PacketReassembler>(new PacketReassembler(stream, _data_collector));
 
 		// erase PacketReassembler when the stream closed properly
 		stream.stream_closed_callback([&](Tins::TCPIP::Stream& stream) {

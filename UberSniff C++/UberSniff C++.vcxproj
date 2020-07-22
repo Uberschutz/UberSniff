@@ -154,12 +154,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\collector\DataCollector.cpp" />
     <ClCompile Include="src\sniffer\http\PacketReassembler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\sniffer\http\Sniffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\collector\DataBatch.hpp" />
+    <ClInclude Include="inc\collector\DataCollector.hpp" />
+    <ClInclude Include="inc\packet\Exchanges.hpp" />
     <ClInclude Include="inc\sniffer\http\PacketReassembler.hpp" />
+    <ClInclude Include="inc\packet\Request.hpp" />
+    <ClInclude Include="inc\packet\Response.hpp" />
     <ClInclude Include="inc\sniffer\ISniffer.hpp" />
     <ClInclude Include="inc\sniffer\http\Sniffer.hpp" />
   </ItemGroup>

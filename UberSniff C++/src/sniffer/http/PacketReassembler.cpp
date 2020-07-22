@@ -2,10 +2,16 @@
 #include "sniffer/http/PacketReassembler.hpp"
 
 namespace ubersniff::sniffer::http {
-	PacketReassembler::PacketReassembler(Tins::TCPIP::Stream& stream)
+	PacketReassembler::PacketReassembler(Tins::TCPIP::Stream& stream, collector::DataCollector& data_collector):
+		_data_collector(data_collector)
 	{
 		stream.client_data_callback(std::bind(&PacketReassembler::_on_client_data, this, std::placeholders::_1));
 		stream.server_data_callback(std::bind(&PacketReassembler::_on_server_data, this, std::placeholders::_1));
+	}
+
+	PacketReassembler::~PacketReassembler()
+	{
+		_data_collector.dump();
 	}
 
 	std::list<std::vector<uint8_t>> PacketReassembler::_extract_headers(std::vector<uint8_t>& data_buffer)
@@ -32,9 +38,14 @@ namespace ubersniff::sniffer::http {
 			// end of headers
 			_is_reassembling_a_server_response_headers = false;
 			_is_reassembling_a_response_packet_content = true;
+			// call packet processing if it's an image
+			if (_reassembling_response_packet.content_type == ContentType::IMAGE) {
+				_process_http_packets({_request_packets.front(), _reassembling_response_packet});
+			}
 		} else {
 			std::string header(data.begin(), pos);
-			std::string value(pos + delimiter.size(), data.end());
+			// remove "\r\n"
+			std::string value(pos + delimiter.size(), data.end() - 2);
 			_reassembling_response_packet.headers[header] = value;
 			if (header == "Content-Length") {
 				// get content length
@@ -79,10 +90,11 @@ namespace ubersniff::sniffer::http {
 			// end of content
 			_is_reassembling_a_response_packet_content = false;
 
-			// call packet processing
-			_process_http_packets(std::move(_request_packets.front()), std::move(_reassembling_response_packet));
+			// call packet processing if it's text
+			if (_reassembling_response_packet.content_type == ContentType::TEXT) {
+				_process_http_packets({ _request_packets.front(), _reassembling_response_packet });
+			}
 			_request_packets.pop();
-			_reassembling_response_packet = {};
 		}
 	}
 
@@ -104,14 +116,12 @@ namespace ubersniff::sniffer::http {
 				std::string str(it.begin(), it.end());
 				if (std::regex_match(str, matchs, http_request_regex)) {
 					// New response packet identified
-					_reassembling_response_packet = {};
 					_is_reassembling_a_server_response_headers = true;
 					_response_packet_content_size = 0;
+					_reassembling_response_packet = {};
 					_reassembling_response_packet.response = str;
 					_reassembling_response_packet.status_code = matchs[1].str();
 					_reassembling_response_packet.status_message = matchs[2].str();
-					_reassembling_response_packet.content_type = ContentType::UNDEFINED;
-					_reassembling_response_packet.content_length = 0;
 				}
 			}
 		}
@@ -131,7 +141,8 @@ namespace ubersniff::sniffer::http {
 					_request_packets.push(_reassembling_request_packet);
 				} else {
 					std::string header(it.begin(), pos);
-					std::string value(pos + delimiter.size(), it.end());
+					// remove "\r\n"
+					std::string value(pos + delimiter.size(), it.end() - 2);
 					_reassembling_request_packet.headers[header] = value;
 				}
 			} else {
@@ -144,31 +155,62 @@ namespace ubersniff::sniffer::http {
 					_is_reassembling_a_request_packet = true;
 					_reassembling_request_packet.request = str;
 					_reassembling_request_packet.method = matchs[1].str();
-					_reassembling_request_packet.url = matchs[2].str();
-					std::cout << "new http response: " << _reassembling_request_packet.url  << std::endl;
+					std::string uri = matchs[2].str();
+					if (uri[0] == '/') {
+						_reassembling_request_packet.path = uri;
+					} else if (uri[0] == '*') {
+						_reassembling_request_packet.path = "/";
+					} else {
+						if (uri.rfind("http://", 0) != std::string::npos) {
+							_reassembling_request_packet.uri = uri;
+							// remove http://
+							uri = uri.substr(8);
+						} else {
+							_reassembling_request_packet.uri = "http://" + uri;
+						}
+						auto pos_host_end = uri.find('/');
+						if (pos_host_end == uri.npos) {
+							// no path
+							_reassembling_request_packet.host = "http://" + uri;
+							_reassembling_request_packet.path = "/";
+						} else {
+							_reassembling_request_packet.host = "http://" + uri.substr(0, pos_host_end);
+							_reassembling_request_packet.path = uri.substr(pos_host_end);
+						}
+					}
 				}
 			}
 		}
 	}
 
-	void PacketReassembler::_process_http_packets(RequestPacket&& request_packet, ResponsePacket&& response_packet)
+	void PacketReassembler::_process_http_packets(Exchanges exchanges)
 	{
-		if (request_packet.headers.count("Host")) {
-			std::cout << "Received a packet from " << request_packet.headers["Host"] << request_packet.url
-				<< " with status code " << response_packet.status_code << std::endl;
-		} else {
-			std::cout << "Received a packet from " << request_packet.url
-				<< " with status code " << response_packet.status_code << std::endl;
+		std::cout << std::string(100, '*') << std::endl;
+
+		// print Url
+		if (!exchanges.request.uri.size() && exchanges.request.headers.count("Host")) {
+			if (exchanges.request.headers["Host"].rfind("http://", 0) != std::string::npos) {
+				exchanges.request.host = exchanges.request.headers["Host"];
+				exchanges.request.uri = exchanges.request.host;
+			} else {
+				exchanges.request.host = "http://" + exchanges.request.headers["Host"];
+				exchanges.request.uri = exchanges.request.host;
+			}
+			if (exchanges.request.path != "*") {
+				exchanges.request.uri += exchanges.request.path;
+			}
 		}
-		if (response_packet.content_type == ContentType::TEXT) {
-			std::cout << "\tIt is html content" << std::endl;
-/*			std::cout << "\tContent:" << std::endl;
-			std::cout << response_packet.content << std::endl;*/
-		} else if (response_packet.content_type == ContentType::IMAGE) {
-			std::cout << "\tIt is an image" << std::endl;
-		} else {
-			std::cout << "\tThe Content-Type is undefined" << std::endl;
+		std::cout << "Received a packet from \"" << exchanges.request.uri
+			<< "\" with status code " << exchanges.response.status_code << std::endl;
+
+		// send exchanges to the DataCollector
+		if (exchanges.response.content_type == ContentType::TEXT) {
+			_data_collector.collect_text_exchanges(std::move(exchanges));
+		} else if (exchanges.response.content_type == ContentType::IMAGE) {
+			_data_collector.collect_image_exchanges(std::move(exchanges));
 		}
+
+		std::cout << std::string(100, '*') << std::endl;
 		std::cout << std::endl;
 	}
 

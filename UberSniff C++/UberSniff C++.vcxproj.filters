@@ -30,6 +30,9 @@
     <ClCompile Include="src\sniffer\http\Sniffer.cpp">
       <Filter>Source Files\http</Filter>
     </ClCompile>
+    <ClCompile Include="src\collector\DataCollector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\sniffer\http\PacketReassembler.hpp">
@@ -39,6 +42,21 @@
       <Filter>Header Files\http</Filter>
     </ClInclude>
     <ClInclude Include="inc\sniffer\ISniffer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\collector\DataBatch.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\packet\Request.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\packet\Response.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\packet\Exchanges.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\collector\DataCollector.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

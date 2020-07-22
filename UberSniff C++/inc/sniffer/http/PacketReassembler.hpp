@@ -3,23 +3,36 @@
 #include <queue>
 #include <regex>
 #include <tins/tcp_ip/stream.h>
-#include "sniffer/http/ResponsePacket.hpp"
-#include "sniffer/http/RequestPacket.hpp"
+#include "collector/DataCollector.hpp"
+#include "packet/Exchanges.hpp"
+#include "packet/Response.hpp"
+#include "packet/Request.hpp"
 
 namespace ubersniff::sniffer::http {
+	using Exchanges = ubersniff::packet::Exchanges;
+	using Response = ubersniff::packet::Response;
+	using Request = ubersniff::packet::Request;
+	using ContentType = ubersniff::packet::ContentType;
+
+	/*
+	* This class reassemble the HTTP packet exchanges captured by the the sniffer
+	* Each reassembled exchange will be send to the DataCollector
+	*/
 	class PacketReassembler {
+		collector::DataCollector& _data_collector;
+
 		std::vector<uint8_t> _request_data_buffer;
 		std::vector<uint8_t> _response_data_buffer;
 
-		std::queue<RequestPacket> _request_packets;
+		std::queue<Request> _request_packets;
 
 		bool _is_reassembling_a_request_packet = false;
-		RequestPacket _reassembling_request_packet;
+		Request _reassembling_request_packet;
 
 		bool _is_reassembling_a_server_response_headers = false;
 		bool _is_reassembling_a_response_packet_content = false;
 		size_t _response_packet_content_size = 0;
-		ResponsePacket _reassembling_response_packet;
+		Response _reassembling_response_packet;
 
 		void _on_server_data(Tins::TCPIP::Stream& stream);
 		void _on_client_data(Tins::TCPIP::Stream& stream);
@@ -30,9 +43,9 @@ namespace ubersniff::sniffer::http {
 		void _reassemble_reponse_packets_content(std::vector<uint8_t>& data);
 		void _reassemble_reponse_packets_header(const std::vector<uint8_t>& data);
 
-		void _process_http_packets(RequestPacket&& request_packet, ResponsePacket&& response_packet);
+		void _process_http_packets(Exchanges exchanges);
 	public:
-		PacketReassembler(Tins::TCPIP::Stream& stream);
-		~PacketReassembler() = default;
+		PacketReassembler(Tins::TCPIP::Stream& stream, collector::DataCollector& data_collector);
+		~PacketReassembler();
 	};
 }

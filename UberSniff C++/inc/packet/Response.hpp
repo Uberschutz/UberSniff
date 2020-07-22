@@ -2,14 +2,20 @@
 
 #include <unordered_map>
 
-namespace ubersniff::sniffer::http {
+namespace ubersniff::packet {
+	/*
+	* Enum of diffenrent content type that can be identified by the sniffer
+	*/
 	enum class ContentType {
 		UNDEFINED,
 		IMAGE,
 		TEXT
 	};
 
-	struct ResponsePacket {
+	/*
+	* Represent a simplified HTTP response packet
+	*/
+	struct Response {
 		std::string response;
 		std::unordered_map<std::string, std::string> headers;
 
@@ -17,7 +23,7 @@ namespace ubersniff::sniffer::http {
 		std::string status_message;
 
 		std::string content;
-		size_t content_length;
-		ContentType content_type;
+		size_t content_length = 0;
+		ContentType content_type = ContentType::UNDEFINED;
 	};
 }

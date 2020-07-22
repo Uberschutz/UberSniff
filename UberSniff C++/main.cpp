@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include "tins/network_interface.h"
 #include "sniffer/http/Sniffer.hpp"
+#include "collector/DataCollector.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -17,7 +18,8 @@ int main(int argc, char* argv[])
             std::cout << "Starting capture on interface " << interface_name << std::endl;
         }
 
-        auto http_sniffer = ubersniff::sniffer::http::Sniffer(interface_name);
+        auto data_collector = ubersniff::collector::DataCollector();
+        auto http_sniffer = ubersniff::sniffer::http::Sniffer(interface_name, data_collector);
         http_sniffer.start_sniffing();
 
         std::cout << "Press enter to exit" << std::endl;
