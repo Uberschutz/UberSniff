@@ -33,6 +33,12 @@
     <ClCompile Include="src\collector\DataCollector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\api\Session.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\api\UberBack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\sniffer\http\PacketReassembler.hpp">
@@ -53,10 +59,16 @@
     <ClInclude Include="inc\packet\Response.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\packet\Exchanges.hpp">
+    <ClInclude Include="inc\collector\DataCollector.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\collector\DataCollector.hpp">
+    <ClInclude Include="inc\packet\Exchange.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\api\Session.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\api\UberBack.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

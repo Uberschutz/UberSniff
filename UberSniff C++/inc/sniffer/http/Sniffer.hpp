@@ -32,11 +32,13 @@ namespace ubersniff::sniffer::http {
 		Sniffer(const std::string &interface_name, collector::DataCollector &data_collector);
 		virtual ~Sniffer();
 	
+		bool is_sniffing() { return _is_sniffing; }
+
 		// start the sniffing of the packets in a different thread
 		void start_sniffing();
 		// stop the sniffing of the packets
 		void stop_sniffing();
 
-		bool is_sniffing() { return _is_sniffing; }
+		void change_interface(const std::string &interface_name);
 	};
 }

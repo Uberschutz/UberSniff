@@ -7,7 +7,7 @@ namespace ubersniff::packet {
 	/*
 	* Represent the HTTP request/response exchanges
 	*/
-	struct Exchanges {
+	struct Exchange {
 		Request request;
 		Response response;
 	};

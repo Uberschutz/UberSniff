@@ -4,12 +4,12 @@
 #include <regex>
 #include <tins/tcp_ip/stream.h>
 #include "collector/DataCollector.hpp"
-#include "packet/Exchanges.hpp"
+#include "packet/Exchange.hpp"
 #include "packet/Response.hpp"
 #include "packet/Request.hpp"
 
 namespace ubersniff::sniffer::http {
-	using Exchanges = ubersniff::packet::Exchanges;
+	using Exchanges = ubersniff::packet::Exchange;
 	using Response = ubersniff::packet::Response;
 	using Request = ubersniff::packet::Request;
 	using ContentType = ubersniff::packet::ContentType;

@@ -10,9 +10,7 @@ namespace ubersniff::sniffer::http {
 	}
 
 	PacketReassembler::~PacketReassembler()
-	{
-		_data_collector.dump();
-	}
+	{}
 
 	std::list<std::vector<uint8_t>> PacketReassembler::_extract_headers(std::vector<uint8_t>& data_buffer)
 	{
@@ -205,9 +203,9 @@ namespace ubersniff::sniffer::http {
 
 		// send exchanges to the DataCollector
 		if (exchanges.response.content_type == ContentType::TEXT) {
-			_data_collector.collect_text_exchanges(std::move(exchanges));
+			_data_collector.collect_text_exchange(std::move(exchanges));
 		} else if (exchanges.response.content_type == ContentType::IMAGE) {
-			_data_collector.collect_image_exchanges(std::move(exchanges));
+			_data_collector.collect_image_exchange(std::move(exchanges));
 		}
 
 		std::cout << std::string(100, '*') << std::endl;
