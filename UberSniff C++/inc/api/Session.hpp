@@ -18,7 +18,7 @@ namespace ubersniff::api {
 			const char* target;
 			const char* content_type;
 			const char* body;
-			int content_length;
+			size_t content_length;
 		};
 
 	private:

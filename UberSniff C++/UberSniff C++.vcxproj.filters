@@ -39,6 +39,12 @@
     <ClCompile Include="src\api\UberBack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\sniffer\https\Sniffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sniffer\https\PacketReassembler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\sniffer\http\PacketReassembler.hpp">
@@ -69,6 +75,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inc\api\UberBack.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\sniffer\https\PacketReassembler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\sniffer\https\Sniffer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

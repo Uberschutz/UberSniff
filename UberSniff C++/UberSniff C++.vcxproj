@@ -107,6 +107,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;TINS_STATIC;_WIN32_WINNT=0x0601;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,6 +158,8 @@
     <ClCompile Include="src\api\Session.cpp" />
     <ClCompile Include="src\api\UberBack.cpp" />
     <ClCompile Include="src\collector\DataCollector.cpp" />
+    <ClCompile Include="src\sniffer\https\PacketReassembler.cpp" />
+    <ClCompile Include="src\sniffer\https\Sniffer.cpp" />
     <ClCompile Include="src\sniffer\http\PacketReassembler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\sniffer\http\Sniffer.cpp" />
@@ -167,6 +170,8 @@
     <ClInclude Include="inc\collector\DataBatch.hpp" />
     <ClInclude Include="inc\collector\DataCollector.hpp" />
     <ClInclude Include="inc\packet\Exchange.hpp" />
+    <ClInclude Include="inc\sniffer\https\PacketReassembler.hpp" />
+    <ClInclude Include="inc\sniffer\https\Sniffer.hpp" />
     <ClInclude Include="inc\sniffer\http\PacketReassembler.hpp" />
     <ClInclude Include="inc\packet\Request.hpp" />
     <ClInclude Include="inc\packet\Response.hpp" />
