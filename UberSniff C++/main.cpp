@@ -11,17 +11,21 @@
 #include <tins/network_interface.h>
 #include "api/UberBack.hpp"
 #include "collector/DataCollector.hpp"
+#include "config/Config.hpp"
 #include "sniffer/http/Sniffer.hpp"
 #include "sniffer/https/Sniffer.hpp"
 
-volatile std::atomic<bool> quit(false); // signal flag
+/* Bollean flag that will quit the program when set at true */
+volatile std::atomic<bool> quit(false);
 
+/* Set the quit flag at true. should be called when the signal handling */
 void got_signal(int)
 {
     quit.store(true);
 }
 
 #ifdef _WIN32
+/* Catch Ctrl+C for windows */
 BOOL WINAPI got_ctrl_routine(_In_ DWORD dwCtrlType)
 {
     switch (dwCtrlType) {
@@ -34,6 +38,7 @@ BOOL WINAPI got_ctrl_routine(_In_ DWORD dwCtrlType)
 }
 #endif // !_WIN32
 
+/* get the default interface */
 std::string get_interface_name()
 {
     auto iface = Tins::NetworkInterface::default_interface();
@@ -41,20 +46,13 @@ std::string get_interface_name()
     return interface_name;
 }
 
-ubersniff::api::UberBack init_uberback()
-{
-    ubersniff::api::UberBack::Config config;
-    config.service = "UberSniff";
-    config.host = "127.0.0.1";
-    config.port = "5412";
-    config.token = "tokendesesmorts";
-    config.userId = "testUser";
-
-    return ubersniff::api::UberBack(config);
-}
-
 int main(int argc, char* argv[])
 {
+    if (argc < 2) {
+        std::cerr << "Invalid number of argument: " << argv[0] << " <config_file.xml>" << std::endl;
+        return EXIT_FAILURE;
+    }
+
     try {
         std::signal(SIGTERM, got_signal);
 #ifdef _WIN32
@@ -63,15 +61,16 @@ int main(int argc, char* argv[])
         std::signal(SIGINT, got_signal);
 #endif // !_WIN32
 
+        auto config = ubersniff::config::Config(argv[1]);
         auto interface_name = get_interface_name();
-        auto uberback = init_uberback();
+        auto uberback = ubersniff::api::UberBack(config.get_uberback_config());
         auto data_collector = ubersniff::collector::DataCollector();
         auto http_sniffer = ubersniff::sniffer::http::Sniffer(interface_name, data_collector);
-        auto https_sniffer = ubersniff::sniffer::https::Sniffer(interface_name, data_collector);
+//        auto https_sniffer = ubersniff::sniffer::https::Sniffer(interface_name, data_collector);
         std::cout << "Starting capture on interface " << interface_name << std::endl;
 
         http_sniffer.start_sniffing();
-        https_sniffer.start_sniffing();
+//        https_sniffer.start_sniffing();
         auto is_dumped = false;
 
         while (!quit.load()) {
@@ -81,7 +80,7 @@ int main(int argc, char* argv[])
                 interface_name = new_interface_name;
                 std::cout << "Change capture on interface " << interface_name << std::endl;
                 http_sniffer.change_interface(interface_name);
-                https_sniffer.change_interface(interface_name);
+//                https_sniffer.change_interface(interface_name);
             }
             if (!data_collector.process_next_exchanges()) {
                 if (!is_dumped) {
@@ -102,6 +101,7 @@ int main(int argc, char* argv[])
     }
     catch (std::exception& ex) {
         std::cerr << "Error: " << ex.what() << std::endl;
-        return 1;
+        return EXIT_FAILURE;
     }
+    return EXIT_SUCCESS;
 }

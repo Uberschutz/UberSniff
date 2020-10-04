@@ -71,19 +71,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)lib\libtins-vs2015-Win32-debug\libtins\include;$(ProjectDir)lib\npcap-sdk-1.05\Include;C:\Lib\boost\boost_1_73_0;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)lib\libtins-vs2015-Win32-debug\libtins\include;$(ProjectDir)lib\npcap-sdk-1.05\Include;C:\Lib\boost\boost_1_73_0;$(IncludePath);$(ProjectDir)lib\pugixml-1.10\src</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)lib\libtins-vs2015-x64-debug\libtins\include;$(ProjectDir)lib\npcap-sdk-1.05\Include;C:\Lib\boost\boost_1_73_0;$(IncludePath);$(ProjectDir)inc</IncludePath>
+    <IncludePath>$(ProjectDir)lib\libtins-vs2015-x64-debug\libtins\include;$(ProjectDir)lib\npcap-sdk-1.05\Include;C:\Lib\boost\boost_1_73_0;$(IncludePath);$(ProjectDir)inc;$(ProjectDir)lib\pugixml-1.10\src</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)lib\libtins-vs2015-Win32-release\libtins\include;$(ProjectDir)lib\npcap-sdk-1.05\Include;C:\Lib\boost\boost_1_73_0;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)lib\libtins-vs2015-Win32-release\libtins\include;$(ProjectDir)lib\npcap-sdk-1.05\Include;C:\Lib\boost\boost_1_73_0;$(IncludePath);$(ProjectDir)lib\pugixml-1.10\src</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)lib\libtins-vs2015-x64-release\libtins\include;$(ProjectDir)lib\npcap-sdk-1.05\Include;C:\Lib\boost\boost_1_73_0;$(IncludePath);$(ProjectDir)inc</IncludePath>
+    <IncludePath>$(ProjectDir)lib\libtins-vs2015-x64-release\libtins\include;$(ProjectDir)lib\npcap-sdk-1.05\Include;C:\Lib\boost\boost_1_73_0;$(IncludePath);$(ProjectDir)inc;$(ProjectDir)lib\pugixml-1.10\src</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -155,9 +155,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="lib\pugixml-1.10\src\pugixml.cpp" />
     <ClCompile Include="src\api\Session.cpp" />
     <ClCompile Include="src\api\UberBack.cpp" />
     <ClCompile Include="src\collector\DataCollector.cpp" />
+    <ClCompile Include="src\config\Config.cpp" />
     <ClCompile Include="src\sniffer\https\PacketReassembler.cpp" />
     <ClCompile Include="src\sniffer\https\Sniffer.cpp" />
     <ClCompile Include="src\sniffer\http\PacketReassembler.cpp" />
@@ -165,6 +167,7 @@
     <ClCompile Include="src\sniffer\http\Sniffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\config\Config.hpp" />
     <ClInclude Include="inc\api\Session.hpp" />
     <ClInclude Include="inc\api\UberBack.hpp" />
     <ClInclude Include="inc\collector\DataBatch.hpp" />
@@ -177,6 +180,8 @@
     <ClInclude Include="inc\packet\Response.hpp" />
     <ClInclude Include="inc\sniffer\ISniffer.hpp" />
     <ClInclude Include="inc\sniffer\http\Sniffer.hpp" />
+    <ClInclude Include="lib\pugixml-1.10\src\pugiconfig.hpp" />
+    <ClInclude Include="lib\pugixml-1.10\src\pugixml.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
