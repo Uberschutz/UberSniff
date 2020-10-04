@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UberSniff", "UberSniff\UberSniff.vcxproj", "{68E24054-F5C4-4A28-A723-D2D9CC878F7C}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "UberSniff Installer", "UberSniff Installer\UberSniff Installer.vdproj", "{174D5408-114A-4C15-8752-1B3E79412082}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,10 @@ Global
 		{68E24054-F5C4-4A28-A723-D2D9CC878F7C}.Release|x64.Build.0 = Release|x64
 		{68E24054-F5C4-4A28-A723-D2D9CC878F7C}.Release|x86.ActiveCfg = Release|Win32
 		{68E24054-F5C4-4A28-A723-D2D9CC878F7C}.Release|x86.Build.0 = Release|Win32
+		{174D5408-114A-4C15-8752-1B3E79412082}.Debug|x64.ActiveCfg = Debug
+		{174D5408-114A-4C15-8752-1B3E79412082}.Debug|x86.ActiveCfg = Debug
+		{174D5408-114A-4C15-8752-1B3E79412082}.Release|x64.ActiveCfg = Release
+		{174D5408-114A-4C15-8752-1B3E79412082}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
