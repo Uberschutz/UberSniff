@@ -51,6 +51,9 @@
     <ClCompile Include="src\config\Config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\packet\HTTPReassembler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\sniffer\http\PacketReassembler.hpp">
@@ -96,6 +99,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inc\config\Config.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\packet\HTTPReassembler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

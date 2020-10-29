@@ -3,12 +3,14 @@
 #include "sniffer/http/Sniffer.hpp"
 
 namespace ubersniff::sniffer::http {
-	Sniffer::Sniffer(const std::string& interface_name, collector::DataCollector &data_collector) :
+	Sniffer::Sniffer(const std::string& interface_name, collector::DataCollector& data_collector) :
 		_data_collector(data_collector),
 		_sniffer_config(),
 		_sniffer(interface_name,
 			(_sniffer_config.set_filter("tcp port 80"),
 				_sniffer_config.set_timeout(TIMEOUT),
+				_sniffer_config.set_immediate_mode(true),
+				_sniffer_config.set_promisc_mode(true),
 				_sniffer_config)),
 		_stream_follower()
 	{
