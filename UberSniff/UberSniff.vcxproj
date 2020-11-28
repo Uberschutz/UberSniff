@@ -99,7 +99,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Lib\libtins-vs2015-Win32-debug\libtins\lib;$(ProjectDir)Lib\npcap-sdk-1.05\Lib;C:\Lib\boost\boost_1_73_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tins.lib;Ws2_32.lib;Iphlpapi.lib;wpcap.lib;libcrypto_static.lib;libssl_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>tins.lib;Ws2_32.lib;Iphlpapi.lib;wpcap.lib;libcrypto.lib;libssl.lib;libcrypto_static.lib;libssl_static.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
     </Link>
@@ -117,7 +117,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Lib\libtins-vs2015-x64-debug\libtins\lib;$(ProjectDir)Lib\npcap-sdk-1.05\Lib\x64;C:\Lib\boost\boost_1_73_0\stage\lib;C:\Lib\vcpkg\installed\x64-windows\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tins.lib;Ws2_32.lib;Iphlpapi.lib;wpcap.lib;libcrypto.lib;libssl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>tins.lib;Ws2_32.lib;Iphlpapi.lib;wpcap.lib;libcrypto.lib;libssl.lib;libcrypto.lib;libssl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
     </Link>
@@ -139,7 +139,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Lib\libtins-vs2015-Win32-release\libtins\lib;$(ProjectDir)Lib\npcap-sdk-1.05\Lib;C:\Lib\boost\boost_1_73_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tins.lib;Ws2_32.lib;Iphlpapi.lib;wpcap.lib;libcrypto_static.lib;libssl_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>tins.lib;Ws2_32.lib;Iphlpapi.lib;wpcap.lib;libcrypto.lib;libssl.lib;libcrypto_static.lib;libssl_static.lib;%(AdditionalDependencies);crypt32.lib</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
     </Link>
@@ -161,7 +161,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Lib\libtins-vs2015-x64-release\libtins\lib;$(ProjectDir)Lib\npcap-sdk-1.05\Lib\x64;C:\Lib\boost\boost_1_73_0\stage\lib;%(AdditionalLibraryDirectories);C:\Lib\vcpkg\installed\x64-windows\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tins.lib;Ws2_32.lib;Iphlpapi.lib;wpcap.lib;libcrypto.lib;libssl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>tins.lib;Ws2_32.lib;Iphlpapi.lib;wpcap.lib;libcrypto.lib;libssl.lib;libcrypto.lib;libssl.lib;%(AdditionalDependencies);crypt32.lib</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
     </Link>
