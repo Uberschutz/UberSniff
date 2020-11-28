@@ -157,13 +157,11 @@ namespace ubersniff::collector {
 
 	void DataCollector::collect_image_exchange(packet::Exchange exchange)
 	{
-		std::cout << "\tIt is an image" << std::endl;
 		_push_image_exchange(std::move(exchange));
 	}
 
 	void DataCollector::collect_text_exchange(packet::Exchange exchange)
 	{
-		std::cout << "\tIt is html content" << std::endl;
 		_push_text_exchange(std::move(exchange));
 	}
 

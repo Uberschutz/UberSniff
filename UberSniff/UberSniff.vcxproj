@@ -76,7 +76,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)lib\libtins-vs2015-x64-debug\libtins\include;$(ProjectDir)lib\npcap-sdk-1.05\Include;C:\Lib\boost\boost_1_73_0;$(IncludePath);$(ProjectDir)inc;$(ProjectDir)lib\pugixml-1.10\src</IncludePath>
+    <IncludePath>$(ProjectDir)lib\libtins-vs2015-x64-debug\libtins\include;$(ProjectDir)lib\npcap-sdk-1.05\Include;C:\Lib\boost\boost_1_73_0;$(IncludePath);$(ProjectDir)inc;$(ProjectDir)lib\pugixml-1.10\src;C:\Lib\vcpkg\installed\x64-windows\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -84,7 +84,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)lib\libtins-vs2015-x64-release\libtins\include;$(ProjectDir)lib\npcap-sdk-1.05\Include;C:\Lib\boost\boost_1_73_0;$(IncludePath);$(ProjectDir)inc;$(ProjectDir)lib\pugixml-1.10\src</IncludePath>
+    <IncludePath>$(ProjectDir)lib\libtins-vs2015-x64-release\libtins\include;$(ProjectDir)lib\npcap-sdk-1.05\Include;C:\Lib\boost\boost_1_73_0;$(IncludePath);$(ProjectDir)inc;$(ProjectDir)lib\pugixml-1.10\src;C:\Lib\vcpkg\installed\x64-windows\include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -99,7 +99,9 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Lib\libtins-vs2015-Win32-debug\libtins\lib;$(ProjectDir)Lib\npcap-sdk-1.05\Lib;C:\Lib\boost\boost_1_73_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tins.lib;Ws2_32.lib;Iphlpapi.lib;wpcap.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>tins.lib;Ws2_32.lib;Iphlpapi.lib;wpcap.lib;libcrypto_static.lib;libssl_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -114,8 +116,10 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)Lib\libtins-vs2015-x64-debug\libtins\lib;$(ProjectDir)Lib\npcap-sdk-1.05\Lib\x64;C:\Lib\boost\boost_1_73_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tins.lib;Ws2_32.lib;Iphlpapi.lib;wpcap.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Lib\libtins-vs2015-x64-debug\libtins\lib;$(ProjectDir)Lib\npcap-sdk-1.05\Lib\x64;C:\Lib\boost\boost_1_73_0\stage\lib;C:\Lib\vcpkg\installed\x64-windows\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>tins.lib;Ws2_32.lib;Iphlpapi.lib;wpcap.lib;libcrypto.lib;libssl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -135,7 +139,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)Lib\libtins-vs2015-Win32-release\libtins\lib;$(ProjectDir)Lib\npcap-sdk-1.05\Lib;C:\Lib\boost\boost_1_73_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tins.lib;Ws2_32.lib;Iphlpapi.lib;wpcap.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>tins.lib;Ws2_32.lib;Iphlpapi.lib;wpcap.lib;libcrypto_static.lib;libssl_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -154,8 +160,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)Lib\libtins-vs2015-x64-release\libtins\lib;$(ProjectDir)Lib\npcap-sdk-1.05\Lib\x64;C:\Lib\boost\boost_1_73_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tins.lib;Ws2_32.lib;Iphlpapi.lib;wpcap.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Lib\libtins-vs2015-x64-release\libtins\lib;$(ProjectDir)Lib\npcap-sdk-1.05\Lib\x64;C:\Lib\boost\boost_1_73_0\stage\lib;%(AdditionalLibraryDirectories);C:\Lib\vcpkg\installed\x64-windows\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>tins.lib;Ws2_32.lib;Iphlpapi.lib;wpcap.lib;libcrypto.lib;libssl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -165,8 +173,6 @@
     <ClCompile Include="src\collector\DataCollector.cpp" />
     <ClCompile Include="src\config\Config.cpp" />
     <ClCompile Include="src\packet\HTTPReassembler.cpp" />
-    <ClCompile Include="src\sniffer\https\PacketReassembler.cpp" />
-    <ClCompile Include="src\sniffer\https\Sniffer.cpp" />
     <ClCompile Include="src\sniffer\http\PacketReassembler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\sniffer\http\Sniffer.cpp" />
@@ -179,8 +185,6 @@
     <ClInclude Include="inc\collector\DataCollector.hpp" />
     <ClInclude Include="inc\packet\Exchange.hpp" />
     <ClInclude Include="inc\packet\HTTPReassembler.hpp" />
-    <ClInclude Include="inc\sniffer\https\PacketReassembler.hpp" />
-    <ClInclude Include="inc\sniffer\https\Sniffer.hpp" />
     <ClInclude Include="inc\sniffer\http\PacketReassembler.hpp" />
     <ClInclude Include="inc\packet\Request.hpp" />
     <ClInclude Include="inc\packet\Response.hpp" />

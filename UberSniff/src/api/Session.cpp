@@ -13,13 +13,24 @@ namespace ubersniff::api {
     }
 
     Session::Session(boost::asio::io_context& ioc) :
+        _ctx(ssl::context::sslv23_client),
         _resolver(ioc),
-        _socket(ioc)
-    {}
+        _socket(ioc, 
+            (_ctx.set_verify_mode(ssl::context::verify_peer),
+                boost::certify::enable_native_https_server_verification(_ctx),
+                _ctx))
+    {
+    }
 
     // Start the asynchronous operation
     void Session::send_post_async(Session::Request request)
     {
+        // Set SNI Hostname (many hosts need this to handshake successfully)
+        if (!SSL_set_tlsext_host_name(_socket.native_handle(), request.host)) {
+            boost::system::error_code ec{ static_cast<int>(::ERR_get_error()), boost::asio::error::get_ssl_category() };
+            throw boost::system::system_error{ ec };
+        }
+
         // Set up an HTTP POST request message
         _request.version(11);
         _request.method(http::verb::post);
@@ -27,6 +38,7 @@ namespace ubersniff::api {
         _request.set(http::field::host, request.host);
         _request.set(http::field::content_type, request.content_type);
         _request.set(http::field::content_length, request.content_length);
+        _request.set("token", request.token);
         _request.body() = request.body;
 
         // Look up the domain name
@@ -50,7 +62,7 @@ namespace ubersniff::api {
 
         // Make the connection on the IP address we get from a lookup
         boost::asio::async_connect(
-            _socket,
+            _socket.next_layer(),
             results.begin(),
             results.end(),
             std::bind(
@@ -64,6 +76,20 @@ namespace ubersniff::api {
     {
         if (ec)
             return fail(ec, "connect");
+
+        // Perform the SSL handshake
+        _socket.async_handshake(
+            ssl::stream_base::client,
+            std::bind(
+                &Session::on_handshake,
+                shared_from_this(),
+                std::placeholders::_1));
+    }
+
+    void Session::on_handshake(boost::system::error_code ec)
+    {
+        if (ec)
+            return fail(ec, "on_handshake");
 
         // Send the HTTP request to the remote host
         http::async_write(_socket, _request,
@@ -99,16 +125,19 @@ namespace ubersniff::api {
         if (ec)
             return fail(ec, "read");
 
-        // Write the message to standard out
-        std::cout << _response << std::endl;
+        // Gracefully close the stream
+        _socket.async_shutdown(
+            std::bind(
+                &Session::on_shutdown,
+                shared_from_this(),
+                std::placeholders::_1));
+    }
 
-        // Gracefully close the socket
-        _socket.shutdown(tcp::socket::shutdown_both, ec);
-
-        // not_connected happens sometimes so don't bother reporting it.
-        if (ec && ec != boost::system::errc::not_connected)
+    void Session::on_shutdown(boost::system::error_code ec)
+    {
+        if (ec == boost::asio::error::eof)
+            ec.assign(0, ec.category());
+        if (ec)
             return fail(ec, "shutdown");
-
-        // If we get here then the connection is closed gracefully
     }
 }

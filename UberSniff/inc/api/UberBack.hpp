@@ -22,7 +22,10 @@ namespace ubersniff::api {
 		boost::asio::executor_work_guard<boost::asio::io_context::executor_type> _work;
 		boost::thread_group _worker_threads;
 		
-		std::string _convert_data_batch(const collector::DataBatches &data_batches) const;
+		std::string _convert_data_batch_to_json(const collector::DataBatches& data_batches) const;
+		void _convert_texts_to_json(const std::unordered_map<std::string, int>& texts, std::stringstream& body) const;
+		void _convert_images_to_json(const std::unordered_map<std::string, int>& images, std::stringstream& body) const;
+
 		void _analyze_data_async(collector::DataBatches data_batches);
 	public:
 		explicit UberBack(const UberBack::Config& confi) noexcept;

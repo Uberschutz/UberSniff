@@ -13,7 +13,6 @@
 #include "collector/DataCollector.hpp"
 #include "config/Config.hpp"
 #include "sniffer/http/Sniffer.hpp"
-#include "sniffer/https/Sniffer.hpp"
 
 /* Bollean flag that will quit the program when set at true */
 volatile std::atomic<bool> quit(false);
@@ -66,12 +65,10 @@ int main(int argc, char* argv[])
         auto uberback = ubersniff::api::UberBack(config.get_uberback_config());
         auto data_collector = ubersniff::collector::DataCollector();
         auto http_sniffer = ubersniff::sniffer::http::Sniffer(interface_name, data_collector);
-//        auto https_sniffer = ubersniff::sniffer::https::Sniffer(interface_name, data_collector);
         std::cout << "Starting capture on interface " << interface_name << std::endl;
 
         http_sniffer.start_sniffing();
-//        https_sniffer.start_sniffing();
-        auto is_dumped = false;
+        auto is_analysed = false;
 
         while (!quit.load()) {
             // check default interface
@@ -80,19 +77,18 @@ int main(int argc, char* argv[])
                 interface_name = new_interface_name;
                 std::cout << "Change capture on interface " << interface_name << std::endl;
                 http_sniffer.change_interface(interface_name);
-//                https_sniffer.change_interface(interface_name);
             }
             if (!data_collector.process_next_exchanges()) {
-                if (!is_dumped) {
-                    data_collector.dump();
-                    is_dumped = true;
+                if (!is_analysed) {
+                    //data_collector.dump();
+                    is_analysed = true;
                     // analyse the collected data
                     uberback.analyze_data(std::move(data_collector.extract_data_batches()));
                 }
                 auto sleeping_time = std::chrono::milliseconds(100);
                 std::this_thread::sleep_for(sleeping_time);
             } else {
-                is_dumped = false;
+                is_analysed = false;
             }
         }
  
