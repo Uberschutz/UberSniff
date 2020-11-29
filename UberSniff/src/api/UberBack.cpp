@@ -57,7 +57,7 @@ namespace ubersniff::api {
 			else
 				body << ",";
 			body << "{";
-			body << "\"content\":\"" << text.second << "\",";
+			body << "\"content\":\"" << text.first << "\",";
 			body << "\"nb\":" << text.second;
 			body << "}";
 		}
@@ -76,7 +76,7 @@ namespace ubersniff::api {
 			else
 				body << ",";
 			body << "{";
-			body << "\"content\":\"" << image.second << "\",";
+			body << "\"content\":\"" << image.first << "\",";
 			body << "\"nb\":" << image.second;
 			body << "}";
 		}
