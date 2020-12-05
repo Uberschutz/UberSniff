@@ -9,3 +9,9 @@ https://www.winpcap.org/
 
 ## Boost:
 https://www.boost.org/
+
+## Boost Certify:
+https://github.com/djarek/certify
+
+## openssl:
+https://www.openssl.org/source/
